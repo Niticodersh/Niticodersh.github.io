@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>QW</title>
+</head>
+<script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+<script src="https://rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+<script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+
+<body style='margin: 0px; overflow: hidden;'>
+    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4;'>
+        
+        <a-marker type='barcode' value='056'>
+            <a-tetrahedron position='0 1 0' color="blue"></a-tetrahedron>
+        </a-marker>
+
+        <a-marker type='barcode' value='056'>
+            <a-cylinder position='0 1 0' color="yellow"></a-cylinder>
+        </a-marker>
+
+        <a-marker type='barcode' value='1'>
+            <a-box position='0 1 0' color="blue"></a-box>
+        </a-marker>
+
+        <a-marker type='barcode' value='2'>
+            <a-circle position='0 1 0' color="blue"></a-circle>
+        </a-marker>
+
+        <a-marker type='barcode' value='3'>
+            <a-cone position='0 1 0' color="blue"></a-cone>
+        </a-marker>
+
+        <a-marker type='barcode' value='7'>
+            <a-entity position='0 1 0'>
+                <!-- Use a conditional statement to display a tetrahedron if the last three digits are "056" -->
+                {{#if isTetrahedron}}
+                    <a-tetrahedron color="blue"></a-tetrahedron>
+                {{else}}
+                    <a-sphere color="blue"></a-sphere>
+                {{/if}}
+            </a-entity>
+        </a-marker>
+
+        <!-- Exercise: try a-sphere and a-cylinder, individually and together-->
+        <!-- use this <a-entity camera> to support multiple-markers, otherwise use <a-marker-camera> instead of </a-marker> -->
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+        // JavaScript logic to determine if the last three digits are "056"
+        var markers = document.querySelectorAll('a-marker');
+        markers.forEach(function(marker) {
+            var value = marker.getAttribute('value');
+            marker.setAttribute('data-is-tetrahedron', value.endsWith('056'));
+        });
+    </script>
+</body>
+</html>
